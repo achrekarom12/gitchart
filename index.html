@@ -27,15 +27,18 @@
         <span class="logo-icon" aria-hidden="true">◼</span>
         <span>git<strong>chart</strong></span>
       </a>
-      <ul class="nav-links" role="list">
-        <li><a href="#install" id="nav-install">Install</a></li>
-        <li><a href="#usage" id="nav-usage">Usage</a></li>
-        <li><a href="#api" id="nav-api">API</a></li>
-        <li><a href="#demo" id="nav-demo">Demo</a></li>
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="#install" id="nav-install" class="nav-mobile-close">Install</a></li>
+        <li><a href="#usage" id="nav-usage" class="nav-mobile-close">Usage</a></li>
+        <li><a href="#api" id="nav-api" class="nav-mobile-close">API</a></li>
+        <li><a href="#demo" id="nav-demo" class="nav-mobile-close">Demo</a></li>
       </ul>
       <a href="https://www.npmjs.com/package/@achrekarom/github-contribution-chart" id="nav-npm-btn" class="btn btn-sm btn-outline" target="_blank" rel="noopener">
         npm ↗
       </a>
+      <button id="nav-hamburger" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
@@ -62,7 +65,7 @@
         </a>
       </div>
       <div class="hero-install" id="hero-install-cmd">
-        <code>npm install @achrekarom/github-contribution-chart</code>
+        <div class="hero-install-scroll"><code>npm install @achrekarom/github-contribution-chart</code></div>
         <button id="copy-install" class="copy-btn" aria-label="Copy install command" title="Copy">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>

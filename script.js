@@ -8,6 +8,39 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 10);
 }, { passive: true });
 
+// ── Hamburger menu ────────────────────────────────────────
+(function mobileNav() {
+  const hamburger = document.getElementById('nav-hamburger');
+  const navLinks  = document.getElementById('nav-links');
+  if (!hamburger || !navLinks) return;
+
+  function closeMenu() {
+    navLinks.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // Close when a nav link is tapped
+  navLinks.querySelectorAll('.nav-mobile-close').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navbar.contains(e.target)) closeMenu();
+  });
+
+  // Close on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 640) closeMenu();
+  }, { passive: true });
+})();
+
+
 // ── Hero canvas — animated heatmap ───────────────────────
 (function heroHeatmap() {
   const canvas = document.getElementById('hero-canvas');
