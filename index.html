@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.svg" />
+  <title>github-contribution-chart — Headless GitHub heatmap for React</title>
+  <meta name="description" content="A tiny, headless npm package that fetches your GitHub contribution data via the GraphQL API and renders it as a heatmap grid using a zero-dependency React component." />
+  <meta name="author" content="Om Achrekar" />
+  <meta property="og:title" content="github-contribution-chart" />
+  <meta property="og:description" content="Headless GitHub contribution calendar: data fetcher + zero-dep React chart component." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gitchart.mytinkerlab.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ── NAV ────────────────────────────────────────────────── -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" id="nav-logo-link">
+        <span class="logo-icon" aria-hidden="true">◼</span>
+        <span>git<strong>chart</strong></span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#install" id="nav-install">Install</a></li>
+        <li><a href="#usage" id="nav-usage">Usage</a></li>
+        <li><a href="#api" id="nav-api">API</a></li>
+        <li><a href="#demo" id="nav-demo">Demo</a></li>
+      </ul>
+      <a href="https://www.npmjs.com/package/@achrekarom/github-contribution-chart" id="nav-npm-btn" class="btn btn-sm btn-outline" target="_blank" rel="noopener">
+        npm ↗
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <section id="hero" aria-labelledby="hero-heading">
+    <div class="hero-bg" aria-hidden="true">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+    <div class="hero-content">
+      <div class="badge" id="hero-badge">
+        <span class="badge-dot"></span> v1.0.0
+      </div>
+      <h1 id="hero-heading">github-contribution-chart</h1>
+      <p class="hero-sub">
+        A tiny, headless npm package that <strong>fetches</strong> your GitHub contribution data
+        via the GraphQL API and <strong>renders</strong> it as a heatmap using a
+        zero-dependency React component.
+      </p>
+      <div class="hero-actions">
+        <a href="#install" class="btn btn-primary" id="hero-get-started">Get started</a>
+        <a href="https://github.com/achrekarom12/git-contribution-chart" class="btn btn-ghost" id="hero-github" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .269.18.58.688.482C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div class="hero-install" id="hero-install-cmd">
+        <code>npm install @achrekarom/github-contribution-chart</code>
+        <button id="copy-install" class="copy-btn" aria-label="Copy install command" title="Copy">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ───────────────────────────────────────────── -->
+  <section id="features" aria-labelledby="features-heading">
+    <div class="container">
+      <h2 id="features-heading" class="sr-only">Features</h2>
+      <div class="feature-grid">
+        <article class="feature-card" id="feature-fetch">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3>GraphQL Fetcher</h3>
+          <p>Hits the GitHub GraphQL API to pull your full contribution calendar — no scraping, no rate-limit hacks.</p>
+        </article>
+        <article class="feature-card" id="feature-react">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 6c5.5 0 10 2.7 10 6s-4.5 6-10 6S2 15.3 2 12s4.5-6 10-6z" opacity=".5"/></svg>
+          </div>
+          <h3>React Component</h3>
+          <p>Zero-dependency component. Drop it in any React ≥ 17 project. Full SSR & Next.js Server Components support.</p>
+        </article>
+        <article class="feature-card" id="feature-ts">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="2" width="20" height="20" rx="3" fill="#3178c6"/><path d="M13.5 13.5h2v5h1.5v-5h2V12h-5.5v1.5zM6 12v1.5h2.5V18.5H10V13.5h2.5V12H6z" fill="white"/></svg>
+          </div>
+          <h3>Full TypeScript</h3>
+          <p>Bundled type declarations for every export. Enjoy full IntelliSense with zero extra configuration.</p>
+        </article>
+        <article class="feature-card" id="feature-custom">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="13.5" r="2.5"/><circle cx="8.5" cy="16.5" r="2.5"/><path d="M13.5 9v1.5M17.5 11V10M8.5 14V10.5"/></svg>
+          </div>
+          <h3>Fully Customizable</h3>
+          <p>Override colors per-level, choose dark/light palette, control gap, cell radius, and month window.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INSTALL ─────────────────────────────────────────────── -->
+  <section id="install" aria-labelledby="install-heading">
+    <div class="container section-narrow">
+      <div class="section-label">01 — Install</div>
+      <h2 id="install-heading">Get up and running in seconds</h2>
+      <p class="section-sub">Install via your favourite package manager. React is a peer dependency and only required if you use the chart component.</p>
+      <div class="code-tabs" role="tablist" aria-label="Package manager">
+        <button class="tab active" role="tab" aria-selected="true" id="tab-npm" aria-controls="panel-npm" data-tab="npm">npm</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-yarn" aria-controls="panel-yarn" data-tab="yarn">yarn</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-pnpm" aria-controls="panel-pnpm" data-tab="pnpm">pnpm</button>
+      </div>
+      <div class="code-blocks">
+        <div class="code-block active" id="panel-npm" role="tabpanel" aria-labelledby="tab-npm">
+          <div class="code-header"><span>bash</span><button class="copy-btn" aria-label="Copy" data-copy="npm install github-contribution-chart">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button></div>
+          <pre><code><span class="token-comment"># Install the library</span>
+npm install @achrekarom/github-contribution-chart
+
+<span class="token-comment"># React peer dependency (if not already installed)</span>
+npm install react</code></pre>
+        </div>
+        <div class="code-block" id="panel-yarn" role="tabpanel" aria-labelledby="tab-yarn">
+          <div class="code-header"><span>bash</span><button class="copy-btn" aria-label="Copy" data-copy="yarn add @achrekarom/github-contribution-chart">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2v1"/></svg>
+          </button></div>
+          <pre><code>yarn add @achrekarom/github-contribution-chart</code></pre>
+        </div>
+        <div class="code-block" id="panel-pnpm" role="tabpanel" aria-labelledby="tab-pnpm">
+          <div class="code-header"><span>bash</span><button class="copy-btn" aria-label="Copy" data-copy="pnpm add github-contribution-chart">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2v1"/></svg>
+          </button></div>
+          <pre><code>pnpm add @achrekarom/github-contribution-chart</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── USAGE ──────────────────────────────────────────────── -->
+  <section id="usage" aria-labelledby="usage-heading">
+    <div class="container section-narrow">
+      <div class="section-label">02 — Usage</div>
+      <h2 id="usage-heading">Start in three steps</h2>
+
+      <div class="usage-steps">
+
+        <div class="usage-step" id="usage-step-1">
+          <div class="step-num" aria-hidden="true">1</div>
+          <div class="step-body">
+            <h3>Fetch contribution data</h3>
+            <p>Call <code>fetchGitHubContributions</code> with a GitHub username and a PAT token. Works in Node.js, server components, and the browser.</p>
+            <div class="code-block">
+              <div class="code-header"><span>TypeScript</span><button class="copy-btn" aria-label="Copy code" data-copy="import { fetchGitHubContributions } from 'github-contribution-chart';
+
+const calendar = await fetchGitHubContributions('achrekarom', {
+  token: process.env.GITHUB_TOKEN,
+});"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+              <pre><code><span class="token-keyword">import</span> { fetchGitHubContributions } <span class="token-keyword">from</span> <span class="token-string">'github-contribution-chart'</span>;
+
+<span class="token-comment">// Token is read from options.token, or process.env.GITHUB_TOKEN</span>
+<span class="token-keyword">const</span> calendar <span class="token-op">=</span> <span class="token-keyword">await</span> fetchGitHubContributions(<span class="token-string">'achrekarom'</span>, {
+  token: process.env.GITHUB_TOKEN,
+});</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="usage-step" id="usage-step-2">
+          <div class="step-num" aria-hidden="true">2</div>
+          <div class="step-body">
+            <h3>Render the chart</h3>
+            <p>Pass the calendar to <code>&lt;GitHubContributionChart&gt;</code>. Choose a colour scheme, set how many months to show, and you're done.</p>
+            <div class="code-block">
+              <div class="code-header"><span>TSX</span><button class="copy-btn" aria-label="Copy code" data-copy='import { GitHubContributionChart } from &apos;github-contribution-chart&apos;;
+
+export default function MyPage() {
+  return (
+    <GitHubContributionChart
+      calendar={calendar}
+      colorScheme="dark"
+      months={6}
+    />
+  );
+}'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+              <pre><code><span class="token-keyword">import</span> { GitHubContributionChart } <span class="token-keyword">from</span> <span class="token-string">'github-contribution-chart'</span>;
+
+<span class="token-keyword">export default function</span> <span class="token-fn">MyPage</span>() {
+  <span class="token-keyword">return</span> (
+    <span class="token-tag">&lt;GitHubContributionChart</span>
+      <span class="token-attr">calendar</span>={calendar}
+      <span class="token-attr">colorScheme</span>=<span class="token-string">"dark"</span>
+      <span class="token-attr">months</span>={6}
+    <span class="token-tag">/&gt;</span>
+  );
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="usage-step" id="usage-step-3">
+          <div class="step-num" aria-hidden="true">3</div>
+          <div class="step-body">
+            <h3>Next.js Server Component — full example</h3>
+            <p>Fetch and render in one async server component — no client state, no loading spinners.</p>
+            <div class="code-block">
+              <div class="code-header"><span>app/page.tsx</span><button class="copy-btn" aria-label="Copy code" data-copy="import {
+  fetchGitHubContributions,
+  GitHubContributionChart,
+} from 'github-contribution-chart';
+
+export default async function Page() {
+  const calendar = await fetchGitHubContributions('achrekarom');
+
+  return (
+    <div style={{ width: '100%', height: 120 }}>
+      <GitHubContributionChart calendar={calendar} colorScheme=&quot;dark&quot; />
+    </div>
+  );
+}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+              <pre><code><span class="token-keyword">import</span> {
+  fetchGitHubContributions,
+  GitHubContributionChart,
+} <span class="token-keyword">from</span> <span class="token-string">'github-contribution-chart'</span>;
+
+<span class="token-keyword">export default async function</span> <span class="token-fn">Page</span>() {
+  <span class="token-keyword">const</span> calendar <span class="token-op">=</span> <span class="token-keyword">await</span> <span class="token-fn">fetchGitHubContributions</span>(<span class="token-string">'achrekarom'</span>);
+
+  <span class="token-keyword">return</span> (
+    <span class="token-tag">&lt;div</span> <span class="token-attr">style</span>={{ width: <span class="token-string">'100%'</span>, height: 120 }}>
+      <span class="token-tag">&lt;GitHubContributionChart</span> <span class="token-attr">calendar</span>={calendar} <span class="token-attr">colorScheme</span>=<span class="token-string">"dark"</span> <span class="token-tag">/&gt;</span>
+    <span class="token-tag">&lt;/div&gt;</span>
+  );
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── API ────────────────────────────────────────────────── -->
+  <section id="api" aria-labelledby="api-heading">
+    <div class="container">
+      <div class="section-label">03 — API Reference</div>
+      <h2 id="api-heading">Everything you can configure</h2>
+
+      <div class="api-grid">
+
+        <!-- fetchGitHubContributions -->
+        <div class="api-card" id="api-fetcher">
+          <div class="api-card-header">
+            <code class="api-name">fetchGitHubContributions(username, options?)</code>
+            <span class="api-tag">async function</span>
+          </div>
+          <p class="api-desc">Hits the GitHub GraphQL API and returns the full contribution calendar for the given user, or <code>null</code> on error.</p>
+          <table class="api-table" aria-label="fetchGitHubContributions parameters">
+            <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>username</code></td><td><code>string</code></td><td>GitHub username</td></tr>
+              <tr><td><code>options.token</code></td><td><code>string</code></td><td>GitHub PAT with <code>read:user</code> scope. Falls back to <code>process.env.GITHUB_TOKEN</code>.</td></tr>
+              <tr><td><code>options.fetchFn</code></td><td><code>typeof fetch</code></td><td>Custom fetch impl for Node &lt;18 or test mocking.</td></tr>
+            </tbody>
+          </table>
+          <div class="api-returns">Returns <code>Promise&lt;ContributionCalendar | null&gt;</code></div>
+        </div>
+
+        <!-- GitHubContributionChart -->
+        <div class="api-card" id="api-component">
+          <div class="api-card-header">
+            <code class="api-name">&lt;GitHubContributionChart&gt;</code>
+            <span class="api-tag">React component</span>
+          </div>
+          <p class="api-desc">Zero-dependency heatmap grid. Renders the contribution data from <code>fetchGitHubContributions</code>.</p>
+          <table class="api-table" aria-label="GitHubContributionChart props">
+            <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>calendar</code></td><td><code>ContributionCalendar | null</code></td><td>—</td><td>Data from the fetcher</td></tr>
+              <tr><td><code>colorScheme</code></td><td><code>'dark' | 'light'</code></td><td><code>'dark'</code></td><td>Built-in GitHub-style palettes</td></tr>
+              <tr><td><code>months</code></td><td><code>number</code></td><td><code>6</code></td><td>Recent months to display</td></tr>
+              <tr><td><code>colors</code></td><td><code>Partial&lt;Record&lt;0|1|2|3|4, string&gt;&gt;</code></td><td>—</td><td>Override per-level colours</td></tr>
+              <tr><td><code>gap</code></td><td><code>number</code></td><td><code>4</code></td><td>Cell gap in px</td></tr>
+              <tr><td><code>cellRadius</code></td><td><code>number</code></td><td><code>3</code></td><td>Border-radius in px</td></tr>
+              <tr><td><code>className</code></td><td><code>string</code></td><td>—</td><td>Wrapper CSS class</td></tr>
+              <tr><td><code>style</code></td><td><code>CSSProperties</code></td><td>—</td><td>Wrapper inline styles</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Types -->
+        <div class="api-card api-card-types" id="api-types">
+          <div class="api-card-header">
+            <code class="api-name">TypeScript types</code>
+            <span class="api-tag">exported</span>
+          </div>
+          <div class="type-list">
+            <div class="type-item">
+              <code>ContributionCalendar</code>
+              <span>{ totalContributions: number; weeks: ContributionWeek[] }</span>
+            </div>
+            <div class="type-item">
+              <code>ContributionWeek</code>
+              <span>{ contributionDays: ContributionDay[] }</span>
+            </div>
+            <div class="type-item">
+              <code>ContributionDay</code>
+              <span>{ contributionCount: number; date: string }</span>
+            </div>
+            <div class="type-item">
+              <code>ContributionLevel</code>
+              <span>0 | 1 | 2 | 3 | 4</span>
+            </div>
+            <div class="type-item">
+              <code>ColorScheme</code>
+              <span>'dark' | 'light'</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TOKEN ──────────────────────────────────────────────── -->
+  <section id="token" aria-labelledby="token-heading">
+    <div class="container section-narrow">
+      <div class="token-card" id="token-card">
+        <div class="token-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="token-body">
+          <h2 id="token-heading">GitHub Token</h2>
+          <p>Create a fine-grained personal access token at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" id="token-settings-link">github.com/settings/tokens</a> with <strong>read-only</strong> access to your public data (<code>read:user</code> scope). Then set it as an environment variable:</p>
+          <div class="code-block" style="margin-top: 1rem;">
+            <div class="code-header"><span>bash</span><button class="copy-btn" aria-label="Copy" data-copy="export GITHUB_TOKEN=ghp_yourtoken"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+            <pre><code><span class="token-keyword">export</span> GITHUB_TOKEN<span class="token-op">=</span><span class="token-string">ghp_yourtoken</span></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DEMO ───────────────────────────────────────────────── -->
+  <section id="demo" aria-labelledby="demo-heading">
+    <div class="container">
+      <div class="section-label">04 — Live Demo</div>
+      <h2 id="demo-heading">See it in action</h2>
+      <p class="section-sub">An interactive preview rendered entirely in the browser — no server required.</p>
+
+      <div class="demo-wrapper" id="demo-wrapper">
+        <div class="demo-controls" id="demo-controls" role="group" aria-label="Chart customisation">
+          <div class="demo-control">
+            <label for="ctrl-scheme">Color scheme</label>
+            <div class="toggle-group" role="group">
+              <button class="toggle-btn active" id="ctrl-dark" data-scheme="dark">Dark</button>
+              <button class="toggle-btn" id="ctrl-light" data-scheme="light">Light</button>
+            </div>
+          </div>
+          <div class="demo-control">
+            <label for="ctrl-months">Months: <strong id="months-val">6</strong></label>
+            <input type="range" id="ctrl-months" min="1" max="12" value="6" class="slider" aria-label="Number of months" />
+          </div>
+          <div class="demo-control">
+            <label for="ctrl-gap">Cell gap: <strong id="gap-val">3</strong>px</label>
+            <input type="range" id="ctrl-gap" min="1" max="8" value="3" class="slider" aria-label="Cell gap in pixels" />
+          </div>
+          <div class="demo-control">
+            <label for="ctrl-radius">Radius: <strong id="radius-val">3</strong>px</label>
+            <input type="range" id="ctrl-radius" min="0" max="8" value="3" class="slider" aria-label="Cell border radius" />
+          </div>
+        </div>
+
+        <div class="demo-chart-area" id="demo-chart-area" aria-label="Contribution chart preview">
+          <canvas id="demo-canvas"></canvas>
+          <div class="demo-legend" id="demo-legend" aria-label="Contribution level legend">
+            <span>Less</span>
+            <div class="legend-cells" id="legend-cells"></div>
+            <span>More</span>
+          </div>
+        </div>
+
+        <div class="demo-code-preview" id="demo-code-preview">
+          <div class="code-header"><span>Generated code</span></div>
+          <pre id="demo-code-output"><code></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer id="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-icon" aria-hidden="true">◼</span>
+        <span>github-contribution-chart</span>
+      </div>
+      <p class="footer-copy">
+        MIT License · Built by <a href="https://github.com/achrekarom12" target="_blank" rel="noopener" id="footer-author-link">Om Achrekar</a>
+      </p>
+      <div class="footer-links">
+        <a href="https://www.npmjs.com/package/github-contribution-chart" id="footer-npm" target="_blank" rel="noopener">npm</a>
+        <a href="https://github.com/achrekarom12/git-contribution-chart" id="footer-github" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
