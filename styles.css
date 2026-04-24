@@ -709,7 +709,7 @@ pre code { color: var(--text); background: none; font-size: inherit; }
   overflow: hidden;
 }
 .demo-code-preview pre { max-height: 200px; overflow-y: auto; font-size: 0.8rem; }
-#demo-code-output { display: inline; }
+#demo-code-output { display: block; }
 
 /* ─── Footer ─────────────────────────────────────────────────── */
 #footer {

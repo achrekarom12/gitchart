@@ -177,7 +177,7 @@ document.addEventListener('click', (e) => {
 // ── Install copy button ───────────────────────────────────
 const copyInstallBtn = document.getElementById('copy-install');
 if (copyInstallBtn) {
-  copyInstallBtn.dataset.copy = 'npm install github-contribution-chart';
+  copyInstallBtn.dataset.copy = 'npm install @achrekarom/github-contribution-chart';
 }
 
 // ── Code tabs ─────────────────────────────────────────────
@@ -331,6 +331,19 @@ document.querySelectorAll('.code-tabs').forEach((tabGroup) => {
       `  <span class="token-attr">gap</span>={${gap}}\n` +
       `  <span class="token-attr">cellRadius</span>={${radius}}\n` +
       `<span class="token-tag">/&gt;</span>`;
+
+    // Keep the copy button in sync with the plain-text version
+    const copyBtn = document.getElementById('copy-demo-code');
+    if (copyBtn) {
+      copyBtn.dataset.copy =
+        `<GitHubContributionChart\n` +
+        `  calendar={calendar}\n` +
+        `  colorScheme="${scheme}"\n` +
+        `  months={${months}}\n` +
+        `  gap={${gap}}\n` +
+        `  cellRadius={${radius}}\n` +
+        `/>`;
+    }
   }
 
   // Controls
