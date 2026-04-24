@@ -324,13 +324,17 @@ section:nth-child(even) { background: #080808; }
 }
 .tab.active { color: var(--accent); border-bottom-color: var(--bg-1); }
 
-.code-blocks { position: relative; }
+.code-blocks { position: relative; max-width: 100%; min-width: 0; overflow: hidden; }
 .code-block {
   display: none;
   background: var(--bg-1);
   border: 1px solid var(--border);
   border-radius: 0 var(--radius) var(--radius) var(--radius);
+  /* overflow:hidden alone isn't enough when parent has no constrained width;
+     max-width ensures the block never exceeds its container */
   overflow: hidden;
+  max-width: 100%;
+  min-width: 0;
 }
 .code-block.active { display: block; }
 .code-block:not(:first-child) { border-radius: var(--radius); }
@@ -359,11 +363,20 @@ section:nth-child(even) { background: #080808; }
   text-transform: lowercase;
 }
 pre {
-  padding: 1.25rem 1.25rem;
+  padding: 1.25rem;
+  /* pre must scroll, not expand its parent */
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* prevent pre from blowing out a flex/grid cell */
+  max-width: 100%;
+  min-width: 0;
   font-family: var(--mono);
   font-size: 0.85rem;
   line-height: 1.75;
+  /* keep code on one line so it scrolls rather than wraps */
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 pre code { color: var(--text); background: none; font-size: inherit; }
 
@@ -400,6 +413,9 @@ pre code { color: var(--text); background: none; font-size: inherit; }
   grid-template-columns: 2.5rem 1fr;
   gap: 1.25rem;
   align-items: start;
+  /* prevent the grid itself from overflowing the section */
+  min-width: 0;
+  max-width: 100%;
 }
 .step-num {
   width: 2.5rem;
@@ -416,6 +432,12 @@ pre code { color: var(--text); background: none; font-size: inherit; }
   font-weight: 700;
   flex-shrink: 0;
   margin-top: 0.15rem;
+}
+/* THE KEY FIX: grid child must have min-width:0 or it
+   ignores the 1fr constraint and lets pre overflow */
+.step-body {
+  min-width: 0;
+  overflow: hidden;
 }
 .step-body h3 { color: var(--text); margin-bottom: 0.4rem; }
 .step-body p { font-size: 0.95rem; line-height: 1.7; margin-bottom: 0; }
@@ -567,6 +589,8 @@ pre code { color: var(--text); background: none; font-size: inherit; }
   color: var(--accent);
   flex-shrink: 0;
 }
+/* flex child: must have min-width:0 or the code block inside will overflow */
+.token-body { min-width: 0; overflow: hidden; flex: 1; }
 .token-body h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
 .token-body p { font-size: 0.95rem; }
 .token-body p code {
