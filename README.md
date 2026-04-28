@@ -2,7 +2,7 @@
 
 > Documentation & landing page for [`@achrekarom/github-contribution-chart`](https://www.npmjs.com/package/@achrekarom/github-contribution-chart)
 
-Live at **[gitchart.mytinkerlab.com](https://gitchart.mytinkerlab.com)**
+Live at **[achrekarom12.github.io/gitchart/](https://achrekarom12.github.io/gitchart/)**
 
 ---
 
