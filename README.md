@@ -1,9 +1,9 @@
-# gitchart.github.io
+# GitChart
 
-> Documentation & landing page for [`@achrekarom/github-contribution-chart`](https://www.npmjs.com/package/@achrekarom/github-contribution-chart)
-
-Live at **[achrekarom12.github.io/gitchart/](https://achrekarom12.github.io/gitchart/)**
-
+> Documentation & landing page for [`@achrekarom/github-contribution-chart`](https://www.npmjs.com/package/@achrekarom/github-contribution-chart) <br>
+> Live at [GitChart](https://achrekarom12.github.io/gitchart/) <br>
+> Find NPM package at [@achrekarom/github-contribution-chart](https://www.npmjs.com/package/@achrekarom/github-contribution-chart) <br>
+> Source Code at [github.com/achrekarom12/git-contribution-chart](https://github.com/achrekarom12/git-contribution-chart)
 ---
 
 ## About
@@ -43,11 +43,6 @@ npx serve .
 # or
 python3 -m http.server
 ```
-
-## Library links
-
-- **npm**: [@achrekarom/github-contribution-chart](https://www.npmjs.com/package/@achrekarom/github-contribution-chart)
-- **Source**: [github.com/achrekarom12/git-contribution-chart](https://github.com/achrekarom12/git-contribution-chart)
 
 ## License
 
